@@ -21,6 +21,8 @@ A5   SCL
 #define LOGO16_GLCD_HEIGHT 16
 #define LOGO16_GLCD_WIDTH 16
 
+#define STRING_IN(str) else if (!strcmp(input, str))
+
 const char COMMAND_PH[] = "ph";
 const char COMMAND_POTENTIOMETER[] = "potentiometer";
 const char COMMAND_TEMPERATURE[] = "temperature-sensor";
@@ -68,7 +70,7 @@ void setup(void)
 
 void loop()
 {
-		char input[MAX_BUFFER_SIZE];
+	char input[MAX_BUFFER_SIZE];
 	storeSerial(input, false);
 	
 
@@ -77,13 +79,13 @@ void loop()
 	if (!strcmp(input, "potentiometer"))
 	{
 
-		Serial.print("Potentiometer: ");
+		// Serial.print("Potentiometer: ");
 		Serial.println(analogRead(POTENTIOMETER_0) / 1024.0 * 5.0);
 	}
 	else if (!strcmp(input, "ph"))
 	{
 
-		Serial.print("PH: ");
+		// Serial.print("PH: ");
 		Serial.println(analogRead(PH_SENSOR) / 1024.0 * 5.0 * 3.5);
 	}
 	else if (!strcmp(input, "temperature-sensor"))
@@ -93,7 +95,7 @@ void loop()
 
 		if (!strcmp(numInput, "count")) {
 
-			Serial.print("Count: ");
+			// Serial.print("Count: ");
 			Serial.println(tempSensors.getDeviceCount(), DEC);
 		}
 		else {

@@ -28,7 +28,8 @@ const char DEBUG_CSTR_PARSER[] = "debug-cstring-parser";
 
 // Analog Inputs
 const int PH_SENSOR = 0;
-const int POTENTIOMETER = 1;
+const int POTENTIOMETER_0 = 1;
+const int POTENTIOMETER_1 = 2;
 const char END_LINE_MAP[] = {0, '\n', 13, ' '};
 
 // Digital Inputs
@@ -77,7 +78,7 @@ void loop()
 	{
 
 		Serial.print("Potentiometer: ");
-		Serial.println(analogRead(POTENTIOMETER) / 1024.0 * 5.0);
+		Serial.println(analogRead(POTENTIOMETER_0) / 1024.0 * 5.0);
 	}
 	else if (!strcmp(input, "ph"))
 	{

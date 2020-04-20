@@ -68,7 +68,7 @@ void setup(void)
 void loop()
 {
 		char input[MAX_BUFFER_SIZE];
-	storeSerial(input, true);
+	storeSerial(input, false);
 	
 
 	// Serial.println("Available!");

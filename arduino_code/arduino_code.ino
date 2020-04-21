@@ -140,6 +140,8 @@ void loop()
     // display.println(F"reset");
     // display.display();
 
+	Serial.flush();
+
 }
 
 /**
@@ -148,17 +150,12 @@ void loop()
 char * storeSerial(char *cstr, bool wait, int size, bool overflowProtect, int growth)
 {
 	if (wait) {
-		delay(1000);
-		while (!Serial.available()) {
-			Serial.println(F("3"));
-			delay(500);
-		}
+		while (!Serial.available()) { }
 
 	}
 		
 	int allocateSize = size;
 	if (Serial.available()) {
-
 		int cnt = 0;
 		cstr[0] = Serial.read();
 		Serial.print(cstr[0]);
@@ -179,7 +176,7 @@ char * storeSerial(char *cstr, bool wait, int size, bool overflowProtect, int gr
 			}
 			
 			cstr[cnt] = Serial.read();
-			Serial.print(cstr[cnt]);
+			// Serial.print(cstr[cnt]);
 		}
 
 		cstr[cnt] = 0;
@@ -251,5 +248,5 @@ void printStringHex(char* cstr, bool newline)
 		Serial.print(*c, HEX);
 	}
 
-	if (newline) Serial.print('\n');
+	if (newline) Serial.println();
 }

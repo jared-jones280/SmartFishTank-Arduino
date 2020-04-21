@@ -10,6 +10,7 @@
 #include <WString.h>
 
 #define MAX_BUFFER_SIZE 256
+#define D_PRINT Serial.println(F("DEBUG"));
 
 /*
 HardWare I2C pins
@@ -75,8 +76,9 @@ void setup(void)
 
 void loop()
 {
-	delay(1000);
+	// delay(1000);
 	char input[MAX_BUFFER_SIZE];
+	input[0] = '\0';
 	storeSerial(input, false);
 	
 
@@ -90,7 +92,6 @@ void loop()
 	}
 	else if (!strcmp(input, "ph"))
 	{
-
 		// Serial.print(F"PH: ");
 		Serial.println(analogRead(PH_SENSOR) / 1024.0 * 5.0 * 3.5);
 	}
@@ -158,7 +159,6 @@ char * storeSerial(char *cstr, bool wait, int size, bool overflowProtect, int gr
 	if (Serial.available()) {
 		int cnt = 0;
 		cstr[0] = Serial.read();
-		Serial.print(cstr[0]);
 
 		while (!isCharacter(cstr[cnt], END_LINE_MAP, sizeof(END_LINE_MAP))) {
 
@@ -186,7 +186,7 @@ char * storeSerial(char *cstr, bool wait, int size, bool overflowProtect, int gr
 
 	}
 	else {
-		// cstr[0] = '\0';
+		cstr[0] = '\0';
 		// Serial.println(F"HERE!");
 
 		// delay(500);

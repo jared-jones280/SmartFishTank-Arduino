@@ -1,4 +1,4 @@
-
+#include <Arduino.h>
 // Import required libraries
 #include "ArducamSSD1306.h" // Modification of Adafruit_SSD1306 for ESP8266 compatibility
 #include "Adafruit_GFX.h"   // Needs a little change in original Adafruit library (See README.txt file)
@@ -6,6 +6,8 @@
 
 #include <OneWire.h>
 #include <DallasTemperature.h>
+
+#include <WString.h>
 
 #define MAX_BUFFER_SIZE 256
 
@@ -48,6 +50,7 @@ void setup(void)
 {
     // Start Serial
     Serial.begin(9600);
+	Serial.println(F("Initializing"));
 
     // SSD1306 Init
     display.begin(); // Switch OLED
@@ -56,36 +59,39 @@ void setup(void)
     display.setTextSize(1);
     display.setTextColor(WHITE);
     display.setCursor(20, 20);
-    display.println("Smart Fishtank");
+    display.println(F("Smart Fishtank"));
     display.setCursor(20, 40);
-    display.println("initializing...");
+    display.println(F("initializing..."));
     display.display();
     //initialize rest of sensors here
 
     // Setting up sensors
 	tempSensors.begin();
-	for (int i = 0; i < 100; ++i) Serial.print('\0');
+	Serial.println(F("Done finishing up sensors"));
+	delay(1000);
+	// for (int i = 0; i < 100; ++i) Serial.print('\0');
     //
 }
 
 void loop()
 {
+	delay(1000);
 	char input[MAX_BUFFER_SIZE];
 	storeSerial(input, false);
 	
 
-	// Serial.println("Available!");
+	// Serial.println(F"Available!");
 
 	if (!strcmp(input, "potentiometer"))
 	{
 
-		// Serial.print("Potentiometer: ");
+		// Serial.print(F"Potentiometer: ");
 		Serial.println(analogRead(POTENTIOMETER_0) / 1024.0 * 5.0);
 	}
 	else if (!strcmp(input, "ph"))
 	{
 
-		// Serial.print("PH: ");
+		// Serial.print(F"PH: ");
 		Serial.println(analogRead(PH_SENSOR) / 1024.0 * 5.0 * 3.5);
 	}
 	else if (!strcmp(input, "temperature-sensor"))
@@ -95,7 +101,7 @@ void loop()
 
 		if (!strcmp(numInput, "count")) {
 
-			// Serial.print("Count: ");
+			// Serial.print(F"Count: ");
 			Serial.println(tempSensors.getDeviceCount(), DEC);
 		}
 		else {
@@ -103,36 +109,37 @@ void loop()
 			int id = cstringToInt(numInput);
 			int numDevices = tempSensors.getDeviceCount();
 
-			if (id < 0) Serial.println("invalid-id");
-			else if (id >= numDevices) Serial.println("out-of-bounds-id");
+			if (id < 0) Serial.println(F("invalid-id"));
+			else if (id >= numDevices) Serial.println(F("out-of-bounds-id"));
 			else Serial.println(tempSensors.getTempCByIndex(id));
 		}
 	}
 
 	else if (!strcmp(input, "man") || !strcmp(input, "help"))
 	{
-		Serial.println("potentiometer ph temperature-sensor");
+		Serial.println(F("potentiometer ph temperature-sensor"));
 	}
     //concatenate remaining sensor values onto ends of strings
     // delay(2000);
     display.clearDisplay();
     display.setCursor(0, 0);
     display.setTextSize(2);
-    display.println("Smart Tank");
+    display.println(F("Smart Tank"));
     display.setCursor(0, 20);
     display.setTextSize(1);
-    display.println("Temp:F");
+    display.println(F("Temp:F"));
     display.setCursor(0, 35);
-    display.println("Clarity:xxxx");
+    display.println(F("Clarity:xxxx"));
     display.setCursor(0, 50);
-    display.println("PH:xxxx");
+    display.println(F("PH:xxxx"));
     display.display();
     // delay(10000);
     // display.clearDisplay();
     // display.setCursor(20, 20);
     // display.setTextSize(3);
-    // display.println("reset");
+    // display.println(F"reset");
     // display.display();
+
 }
 
 /**
@@ -141,7 +148,12 @@ void loop()
 char * storeSerial(char *cstr, bool wait, int size, bool overflowProtect, int growth)
 {
 	if (wait) {
-		while (!Serial.available()) {}
+		delay(1000);
+		while (!Serial.available()) {
+			Serial.println(F("3"));
+			delay(500);
+		}
+
 	}
 		
 	int allocateSize = size;
@@ -171,19 +183,22 @@ char * storeSerial(char *cstr, bool wait, int size, bool overflowProtect, int gr
 		}
 
 		cstr[cnt] = 0;
-		// Serial.println("\nDone!");
+		// Serial.println(F"\nDone!");
 		// Serial.println(cstr);
 		// printStringHex(cstr, true);
 
 	}
 	else {
-		cstr[0] = 0;
+		// cstr[0] = '\0';
+		// Serial.println(F"HERE!");
+
+		// delay(500);
 	}
 
 	return allocateSize == size ? nullptr : cstr;
 }
 
-bool isCharacter(char c, char *charMap, int size)
+bool isCharacter(char c, const char *charMap, int size)
 {
 	for (int i = 0; i < size; ++i)
 	{
@@ -204,7 +219,7 @@ bool isCharacter(char c, char *charMap, int size)
  * WARNING - This does not check if the characters in
  * the cstring is a valid digit
  */
-int cstringToInt(const char *cstr)
+int cstringToInt(char *cstr)
 {
 	int val = 0;
 	char *c = cstr;
@@ -226,13 +241,13 @@ int cstringToInt(const char *cstr)
 	return val;
 }
 
-void printStringHex(const char* cstr, bool newline)
+void printStringHex(char* cstr, bool newline)
 {
 	if (cstr[0] != '\0') Serial.print(cstr[0], HEX);
 	
 	for (char *c = cstr + 1; *c != '\0'; ++c) {
 
-		Serial.print(' ');
+		Serial.print(F(" "));
 		Serial.print(*c, HEX);
 	}
 

@@ -143,7 +143,7 @@ void loop()
     //print ph
     display.setCursor(0, 36);
     display.print(F("PH:"));
-    display.print((analogRead(PH_SENSOR)));
+    display.print((analogRead(PH_SENSOR)/1024.0*5.0*3.5));
     display.println();
     //print set temp
     display.setCursor(0,48);

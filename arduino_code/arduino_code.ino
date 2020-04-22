@@ -138,12 +138,12 @@ void loop()
     //print clarity	
     display.setCursor(0, 24);
     display.print(F("Clarity:"));
-    display.print(F(rand()%5));
+    display.print(rand()%5);
     display.println();
     //print ph
     display.setCursor(0, 36);
     display.print(F("PH:"));
-    display.print(F(analogRead(PH_SENSOR)));
+    display.print((analogRead(PH_SENSOR)));
     display.println();
     //print set temp
     display.setCursor(0,48);

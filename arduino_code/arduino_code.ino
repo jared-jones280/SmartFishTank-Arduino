@@ -46,6 +46,7 @@ ArducamSSD1306 display(OLED_RESET); // FOR I2C
 
 void printStringHex(const char *cstr, bool newline = false);
 char *storeSerial(char *cstr, bool wait, int size = 0, bool overflowProtect = false, int growth = 16);
+int cstringToInt(char *cstr);
 
 void setup(void)
 {
@@ -124,22 +125,24 @@ void loop()
     // delay(2000);
     display.clearDisplay();
     display.setCursor(0, 0);
-    display.setTextSize(2);
-    display.println(F("Smart Tank"));
-    display.setCursor(0, 20);
     display.setTextSize(1);
-    display.println(F("Temp:F"));
-    display.setCursor(0, 35);
-    display.println(F("Clarity:xxxx"));
-    display.setCursor(0, 50);
-    display.println(F("PH:xxxx"));
+    display.println(F("Smart Tank"));
+    display.setCursor(0, 12);
+    display.setTextSize(1);
+    int temp = (tempSensors.getTempCByIndex(0) + tempSensors.getTempCByIndex(1))/2; 
+    display.println(F("Temp:") + String(temp)+F("C"));
+
+	display.print(F("Temp: "));
+	display.print(temp);
+	display.println(F("C"));
+	
+    display.setCursor(0, 24);
+    display.println(F("Clarity:") + String(rand()%5));
+    display.setCursor(0, 36);
+    display.println(F("PH:") + (analogRead(PH_SENSOR)));
+    display.setCursor(0,48);
+    display.println(F("Set Temp:") + String((analogRead(POTENTIOMETER_0)/50)+60)+F("C"));
     display.display();
-    // delay(10000);
-    // display.clearDisplay();
-    // display.setCursor(20, 20);
-    // display.setTextSize(3);
-    // display.println(F"reset");
-    // display.display();
 
 	Serial.flush();
 
@@ -250,3 +253,4 @@ void printStringHex(char* cstr, bool newline)
 
 	if (newline) Serial.println();
 }
+// 

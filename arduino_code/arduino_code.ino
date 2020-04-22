@@ -115,7 +115,11 @@ void loop()
 			else Serial.println(tempSensors.getTempCByIndex(id));
 		}
 	}
+	else if (!strcmp(input, "signal-error")) {
 
+		
+	}
+	
 	else if (!strcmp(input, "man") || !strcmp(input, "help"))
 	{
 		Serial.println(F("potentiometer ph temperature-sensor"));
@@ -140,6 +144,8 @@ void loop()
     // display.setTextSize(3);
     // display.println(F"reset");
     // display.display();
+
+	/* If statements over here for audio */
 
 	Serial.flush();
 

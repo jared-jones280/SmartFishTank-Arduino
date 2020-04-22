@@ -127,21 +127,29 @@ void loop()
     display.setCursor(0, 0);
     display.setTextSize(1);
     display.println(F("Smart Tank"));
+    //calc avg temp
     display.setCursor(0, 12);
     display.setTextSize(1);
     int temp = (tempSensors.getTempCByIndex(0) + tempSensors.getTempCByIndex(1))/2; 
-    display.println(F("Temp:") + String(temp)+F("C"));
-
-	display.print(F("Temp: "));
-	display.print(temp);
-	display.println(F("C"));
-	
+    //print temp
+    display.print(F("Temp: "));
+    display.print(temp);
+    display.println(F("C"));
+    //print clarity	
     display.setCursor(0, 24);
-    display.println(F("Clarity:") + String(rand()%5));
+    display.print(F("Clarity:"));
+    display.print(F(rand()%5));
+    display.println();
+    //print ph
     display.setCursor(0, 36);
-    display.println(F("PH:") + (analogRead(PH_SENSOR)));
+    display.print(F("PH:"));
+    display.print(F(analogRead(PH_SENSOR)));
+    display.println();
+    //print set temp
     display.setCursor(0,48);
-    display.println(F("Set Temp:") + String((analogRead(POTENTIOMETER_0)/50)+60)+F("C"));
+    display.print(F("Set Temp:"));
+    display.print((analogRead(POTENTIOMETER_0)/50)+60);
+    display.println();
     display.display();
 
 	Serial.flush();

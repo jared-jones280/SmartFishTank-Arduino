@@ -52,6 +52,8 @@ OneWire oneWire(ONE_WIRE_BUS);
 DallasTemperature tempSensors(&oneWire);
 ArducamSSD1306 display(OLED_RESET); // FOR I2C
 
+bool mp3Playing = false;
+
 void printStringHex(const char *cstr, bool newline = false);
 char *storeSerial(char *cstr, bool wait, int size = 0, bool overflowProtect = false, int growth = 16);
 
@@ -143,17 +145,17 @@ void loop()
 		}
 	}
 	else if (!strcmp(input, "signal-error")) {
-		if (analogRead(POTENTIOMETER_0) < 76 || 82 > analogRead(POTENTIOMETER_0){ //checks the water temperature(is this how I would do the variable?) 
-			Serial.println(F("1"))
+		if (analogRead(POTENTIOMETER_0) < 76 || 82 > analogRead(POTENTIOMETER_0)) { //checks the water temperature(is this how I would do the variable?) 
+			Serial.println(F("1"));
 		}
-		else if ((analogRead(PH_SENSOR) / 1024.0 * 5.0 * 3.5) < 6.5 || 7.0 > (analogRead(PH_SENSOR) / 1024.0 * 5.0 * 3.5))){ //checks to see if the water PH is in range(is this how I would do the variable?) 
-			Serial.println(F("2"))
+		else if ((analogRead(PH_SENSOR) / 1024.0 * 5.0 * 3.5) < 6.5 || 7.0 > (analogRead(PH_SENSOR) / 1024.0 * 5.0 * 3.5)){ //checks to see if the water PH is in range(is this how I would do the variable?) 
+			Serial.println(F("2"));
 		}
-		else if ((clarity > 3) && false){ //checks to see if water clarity is in range(is this how I would do the variable?) 
-			Serial.println(F("3"))
+		else if ( /*(clarity > 3) && */ false){ //checks to see if water clarity is in range(is this how I would do the variable?) 
+			Serial.println(F("3"));
 		}
 		else{
-			println(F("0"))
+			Serial.println(F("0"));
 		}
 	}
 		
@@ -183,33 +185,32 @@ void loop()
     // display.println(F"reset");
     // display.display();
 
-	/* If statements over here for audio */
+    /* If statements over here for audio */
 
-	if (analogRead(POTENTIOMETER_0) < 76 || 82 > analogRead(POTENTIOMETER_0){ //checks the water temperature(is this how I would do the variable?) 
-			Serial.println(F("1"))
-			myDFPlayer.play(1);  //Play the first mp3
-			myDFPlayer.loop(1);  //Loop the first mp3		
-	}
-		
-	else if ((analogRead(PH_SENSOR) / 1024.0 * 5.0 * 3.5) < 6.5 || 7.0 > (analogRead(PH_SENSOR) / 1024.0 * 5.0 * 3.5))){ //checks to see if the water PH is in range(is this how I would do the variable?) 
-		Serial.println(F("2"))
+	if (!mp3Playing && analogRead(POTENTIOMETER_0) < 76 || 82 > analogRead(POTENTIOMETER_0)) { //checks the water temperature(is this how I would do the variable?)
+		myDFPlayer.play(1);																	   //Play the first mp3
+		myDFPlayer.loop(1);																	   //Loop the first mp3
+        mp3Playing = true;
+    }
+
+    else if (!mp3Playing && (analogRead(PH_SENSOR) / 1024.0 * 5.0 * 3.5) < 6.5 || 7.0 > (analogRead(PH_SENSOR) / 1024.0 * 5.0 * 3.5)){ //checks to see if the water PH is in range(is this how I would do the variable?) 
 		myDFPlayer.play(1);  //Play the first mp3
 		myDFPlayer.loop(1);  //Loop the first mp3
+		mp3Playing = true;
 	}
 	
-	else if ((clarity > 3) && false){ //checks to see if water clarity is in range(is this how I would do the variable?) 
-		Serial.println(F("3"))
+	else if (!mp3Playing && /*(clarity > 3) && */ false){ //checks to see if water clarity is in range(is this how I would do the variable?) 
+		Serial.println(F("3"));
 		myDFPlayer.play(1);  //Play the first mp3
 		myDFPlayer.loop(1);  //Loop the first mp3
+		mp3Playing = true;
 	}
-	
 	else{
-		myDFPlayer.pause() //when the conditions are resolved turn off the alarm
-		println(F("0"))
-	}
+		myDFPlayer.pause(); //when the conditions are resolved turn off the alarm
+        mp3Playing = false;
+    }
 
-	Serial.flush();
-
+    Serial.flush();
 }
 
 /**
@@ -305,15 +306,15 @@ int cstringToInt(char *cstr)
 	return val;
 }
 
-void printStringHex(char* cstr, bool newline)
-{
-	if (cstr[0] != '\0') Serial.print(cstr[0], HEX);
+// void printStringHex(char* cstr, bool newline)
+// {
+// 	if (cstr[0] != '\0') Serial.print(cstr[0], HEX);
 	
-	for (char *c = cstr + 1; *c != '\0'; ++c) {
+// 	for (char *c = cstr + 1; *c != '\0'; ++c) {
 
-		Serial.print(F(" "));
-		Serial.print(*c, HEX);
-	}
+// 		Serial.print(F(" "));
+// 		Serial.print(*c, HEX);
+// 	}
 
-	if (newline) Serial.println();
-}
+// 	if (newline) Serial.println();
+// }

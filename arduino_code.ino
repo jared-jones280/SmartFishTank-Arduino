@@ -9,8 +9,6 @@
 
 #include <WString.h>
 
-#include "SoftwareSerial.h"
-#include "DFRobotDFPlayerMini.h"
 
 #define MAX_BUFFER_SIZE 256
 #define D_PRINT Serial.println(F("DEBUG"));
@@ -43,11 +41,6 @@ const char END_LINE_MAP[] = {0, '\n', 13, ' '};
 // Digital Inputs
 const int ONE_WIRE_BUS = 2; // Temperature sensors
 
-//Sound Player
-SoftwareSerial mySoftwareSerial(10, 11); // RX, TX
-DFRobotDFPlayerMini myDFPlayer;
-void printDetail(uint8_t type, int value);
-
 OneWire oneWire(ONE_WIRE_BUS);
 DallasTemperature tempSensors(&oneWire);
 ArducamSSD1306 display(OLED_RESET); // FOR I2C
@@ -62,23 +55,7 @@ void setup(void)
     Serial.begin(9600);
 	Serial.println(F("Initializing"));
 
-	mySoftwareSerial.begin(9600);
-	
-	Serial.println();
-	Serial.println(F("DFRobot DFPlayer Mini Demo"));
-	Serial.println(F("Initializing DFPlayer ... (May take 3~5 seconds)"));
 
-	if (!myDFPlayer.begin(mySoftwareSerial)) {  //Use softwareSerial to communicate with mp3.
-		Serial.println(F("Unable to begin:"));
-		Serial.println(F("1.Please recheck the connection!"));
-		Serial.println(F("2.Please insert the SD card!"));
-		while(true);
-	}
-	Serial.println(F("DFPlayer Mini online."));
-  
- 
-  myDFPlayer.volume(10);  //Set volume value. From 0 to 30
-	
     // SSD1306 Init
     display.begin(); // Switch OLED
     // Clear the buffer.
@@ -142,19 +119,7 @@ void loop()
 		}
 	}
 	else if (!strcmp(input, "signal-error")) {
-		if (analogRead(POTENTIOMETER_0) < 76 || 82 > analogRead(POTENTIOMETER_0){ //checks the water temperature(is this how I would do the variable?) 
-			Serial.println(F("1"))
-		}
-		else if ((analogRead(PH_SENSOR) / 1024.0 * 5.0 * 3.5) < 6.5 || 7.0 > (analogRead(PH_SENSOR) / 1024.0 * 5.0 * 3.5))){ //checks to see if the water PH is in range(is this how I would do the variable?) 
-			Serial.println(F("2"))
-		}
-		else if ((clarity > 3) && false){ //checks to see if water clarity is in range(is this how I would do the variable?) 
-			Serial.println(F("3"))
-		}
-		else{
-			println(F("0"))
-		}
-	}
+
 	
 	else if (!strcmp(input, "man") || !strcmp(input, "help"))
 	{
@@ -183,29 +148,6 @@ void loop()
 
 	/* If statements over here for audio */
 		
-	if (analogRead(POTENTIOMETER_0) < 76 || 82 > analogRead(POTENTIOMETER_0){ //checks the water temperature(is this how I would do the variable?) 
-			Serial.println(F("1"))
-			myDFPlayer.play(1);  //Play the first mp3
-			myDFPlayer.loop(1);  //Loop the first mp3		
-	}
-		
-	else if ((analogRead(PH_SENSOR) / 1024.0 * 5.0 * 3.5) < 6.5 || 7.0 > (analogRead(PH_SENSOR) / 1024.0 * 5.0 * 3.5))){ //checks to see if the water PH is in range(is this how I would do the variable?) 
-		Serial.println(F("2"))
-		myDFPlayer.play(1);  //Play the first mp3
-		myDFPlayer.loop(1);  //Loop the first mp3
-	}
-	
-	else if ((clarity > 3) && false){ //checks to see if water clarity is in range(is this how I would do the variable?) 
-		Serial.println(F("3"))
-		myDFPlayer.play(1);  //Play the first mp3
-		myDFPlayer.loop(1);  //Loop the first mp3
-	}
-	
-	else{
-		myDFPlayer.pause() //when the conditions are resolved turn off the alarm
-		println(F("0"))
-	}
-
 	Serial.flush();
 
 }

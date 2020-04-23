@@ -1,4 +1,4 @@
-[200~#include <Arduino.h>
+#include <Arduino.h>
 // Import required libraries
 #include "ArducamSSD1306.h" // Modification of Adafruit_SSD1306 for ESP8266 compatibility
 #include "Adafruit_GFX.h"   // Needs a little change in original Adafruit library (See README.txt file)
@@ -124,19 +124,22 @@ void loop()
     // delay(2000);
     display.clearDisplay();
     display.setCursor(0, 0);
-    display.setTextSize(1);
+    display.setTextSize(2);
     display.println(F("Smart Tank"));
-    display.setCursor(0, 12);
+    display.setCursor(0, 20);
     display.setTextSize(1);
-    int temp = (tempSensors.getTempCByIndex(0) + tempSensors.getTempCByIndex(1))/2; 
-    display.println(F("Temp:"+to_String(temp)+"C"));
-    display.setCursor(0, 24);
-    display.println(F("Clarity:"+to_String(rand()%5));
-    display.setCursor(0, 36);
-    display.println(F("PH:"+to_String(analogRead(PH_SENSOR));
-    display.setCursor(0,48);
-    display.println(F("Set Temp:"+to_String((analogRead(POTENTIOMETER_0)/50)+60)+"C"));
+    display.println(F("Temp:F"));
+    display.setCursor(0, 35);
+    display.println(F("Clarity:xxxx"));
+    display.setCursor(0, 50);
+    display.println(F("PH:xxxx"));
     display.display();
+    // delay(10000);
+    // display.clearDisplay();
+    // display.setCursor(20, 20);
+    // display.setTextSize(3);
+    // display.println(F"reset");
+    // display.display();
 
 	Serial.flush();
 

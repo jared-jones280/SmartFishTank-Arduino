@@ -9,10 +9,10 @@
 
 #include <WString.h>
 
-#include "SoftwareSerial.h"
+#include "src/SoftwareSerial/SoftwareSerial.h"
 #include "DFRobotDFPlayerMini.h"
 
-#define MAX_BUFFER_SIZE 256
+#define MAX_BUFFER_SIZE 64
 #define D_PRINT Serial.println(F("DEBUG"));
 
 /*
@@ -53,6 +53,7 @@ DallasTemperature tempSensors(&oneWire);
 ArducamSSD1306 display(OLED_RESET); // FOR I2C
 
 bool mp3Playing = false;
+char input[MAX_BUFFER_SIZE];
 
 void printStringHex(const char *cstr, bool newline = false);
 char *storeSerial(char *cstr, bool wait, int size = 0, bool overflowProtect = false, int growth = 16);
@@ -106,7 +107,6 @@ void setup(void)
 void loop()
 {
 	// delay(1000);
-	char input[MAX_BUFFER_SIZE];
 	input[0] = '\0';
 	storeSerial(input, false);
 	

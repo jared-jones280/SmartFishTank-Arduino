@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-<script src="index.js"></script>
 <head>
     <meta charset="UTF-8">
     <title>Smart Fish Tank Monitor</title>
@@ -29,9 +28,7 @@
     }
 
 </style>
-
 <body>
-
 <h1 style="color:MediumBlue; border:2px  solid blueviolet; margin: 0 500px;background-color: lightcyan; text-align: center"> Smart Fish Tank Monitor:</h1>
 <br/>
 <br/>
@@ -45,7 +42,7 @@
 <br/>
 	<div>
     <h1 style="display: inline"> pH Sensor: </h1>
-    <p id="ph">pH : </p>
+    <p id="ph">PH: </p>
 	</div>
 <br/>
 <br/>
@@ -53,6 +50,13 @@
     <h1 style="display: inline"> Tank Clarity: </h1>
     <p id="clarity">Clarity: </p>
 	</div>
-
+<br/>
+	<div>
+    <h1 style="display: inline">Alarm:</h1>
+    <p id="alarm">Alarm: </p>
+	</div>
+<br/>
+    <button onclick="refreshValues()">Refresh Values</button>
+    <script src="index.js" onload = "refreshValues()"></script>
 </body>
 </html>

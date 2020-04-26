@@ -27,3 +27,13 @@ function refreshValues(){
 
 
 }   
+
+function setPot(){
+    var request = new XMLHttpRequest();
+    var ptemp = document.getElementById("setTemp").value;
+    request.open('GET','http://pi.cmasterx.com:8000/api?set_temp='+ptemp);
+    
+    request.send();
+
+
+}

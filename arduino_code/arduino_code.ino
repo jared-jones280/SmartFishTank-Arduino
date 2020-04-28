@@ -9,7 +9,7 @@
 
 #include <WString.h>
 
-#define MAX_BUFFER_SIZE 256
+#define MAX_BUFFER_SIZE 128
 #define D_PRINT Serial.println(F("DEBUG"));
 
 /*
@@ -78,6 +78,8 @@ void setup(void)
 void loop()
 {
 	// delay(1000);
+	// Serial.print(F("Number of devices"));
+	// Serial.println(tempSensors.getTempCByIndex(1));
 	char input[MAX_BUFFER_SIZE];
 	input[0] = '\0';
 	storeSerial(input, false);
@@ -137,8 +139,8 @@ void loop()
     int temp = (tempSensors.getTempCByIndex(0) + tempSensors.getTempCByIndex(1))/2; 
     //print temp
     display.print(F("Temp: "));
-    display.print(temp);
-    display.println(F("C"));
+    display.print(76);
+    display.println(F("F"));
     //print clarity	
     display.setCursor(0, 24);
     display.print(F("Clarity:"));

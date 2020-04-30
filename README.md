@@ -1,6 +1,11 @@
 # Smart Fish Tank Webserver
 The Web Server for the Smart Fish Tank Monitoring System
 
+## Requirements
+- Python 3
+- Pip3
+- Python library dependencies in requirements.txt
+
 ## Installing
 #### Using  `env.sh` script
 1. Run `$ source env.sh`

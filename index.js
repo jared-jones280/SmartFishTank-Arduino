@@ -1,3 +1,6 @@
+document.getElementById("pottemp").innerText = "Set Temperature: " + 76;
+setInterval(function(){ updateValues(); }, 2000);
+
 function refreshValues(){
     var request = new XMLHttpRequest();
     request.open('GET','http://pi.cmasterx.com:8000/api');
@@ -26,14 +29,30 @@ function refreshValues(){
     request.send();
 
 
-}   
+}
+
+var i = 0;
+
+function updateValues() {
+    var clarity = i % 10;
+    clarity = clarity / 2 >> 0;
+
+    document.getElementById("temp").innerText = "Temperature Conditions: "+ (77 + (i / 20 >> 0) % 2);
+    // document.getElementById("pottemp").innerText = "Set Temperature: " + 76;
+    document.getElementById("ph").innerText = "PH: "+ (5.02 + Math.random() * 0.3);
+    document.getElementById("clarity").innerText = "Clarity: "+ (clarity + 1);
+    document.getElementById("alarm").innerText= "Alarm: " + "False";
+
+    i++;
+}
 
 function setPot(){
-    var request = new XMLHttpRequest();
-    var ptemp = document.getElementById("setTemp").value;
-    request.open('GET','http://pi.cmasterx.com:8000/api?set_temp='+ptemp);
+    // var request = new XMLHttpRequest();
+    var tmp = document.getElementById("setTemp").value;
+    document.getElementById("pottemp").innerText = "Set Temperature: " + tmp;
+    // request.open('GET','http://pi.cmasterx.com:8000/api?set_temp='+ptemp);
     
-    request.send();
+    // request.send();
 
 
 }

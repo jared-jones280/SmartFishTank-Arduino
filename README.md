@@ -6,6 +6,21 @@ This Smart Fish Tank Monitoring System is fish maintenance and monitoring ecosys
 - **webpage** Python webserver and website for remote communication to the Smart Fish Tank Hardware 
 - **CAD** 3D CAD for 3D Printing 
 
+## Documents
+#### Design Document
+[Direct Link](documents/design_document.pdf)
+<br>
+
+#### Presentation
+[Direct Link](documents/final_presentation.pdf)
+<br>
+Note: Download pdf and click on slides 9-14 to play videos
+<br>
+
+#### Schematic
+![Arduino Schematic](documents/schematics.svg)
+
+
 ## Team
 - <a href="https://github.com/cmasterx" target="_blank">Charlemagne Wong</a>
 - <a href="https://github.com/jared-jones280" target="_blank">Jared Jones</a>

@@ -1,9 +1,11 @@
-import time, socket, json, pickle
+# old code
+
+import time, socket, json, pickle, datetime, queue, threading
 from adafruit_motorkit import MotorKit
 from adafruit_motor import stepper
 import serial
 
-def main():
+def main(q1):
     connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     connection.connect(('pi.cmasterx.com', 8000))
 
@@ -19,13 +21,32 @@ def main():
             }
             
             connection.send(pickle.dumps(tankData))
+            msg = connection.recvmsg
+
+            if (msg == "feed"):
+                q1.put(msg)
             
         except:
             # re-establish connection to server
             connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             connection.connect(('pi.cmasterx.com', 8000))
 
-                
+def feeder_thread(q1):
+    kit = MotorKit()
+
+    while (True):
+        if not q1.empty():
+            msg = q1.get()
+            if (msg == "feed"):
+                for i in range(50):
+                    kit.stepper1.onestep(style=stepper.DOUBLE)
+                    time.sleep(0.1)
+
+                kit.stepper1.release()
+        
+        time.sleep(0.01)
+    
+
 def sensor_readings(type, args=None):
 
     if type == 'temperature' and 'id' in args:
@@ -33,21 +54,13 @@ def sensor_readings(type, args=None):
     else:
         False
 
-kit = MotorKit()
-
 
 def serial_test():
     ser = serial.Serial('/dev/ttyACM0', 9600, timeout=0.050)
 
-for i in range(20):
-    kit.stepper1.onestep(style=stepper.SINGLE)
-    time.sleep(0.5)
-time.sleep(0.5)
-kit.stepper1.release()
-
-def test(*args):
-    print(args)
 
 if __name__ == '__main__':
-    test()
-    main()
+    q1 = queue.Queue()
+    t1 = threading.Thread(target=feeder_thread, args=(q1,), daemon=True)
+    t1.start()
+    main(q1)

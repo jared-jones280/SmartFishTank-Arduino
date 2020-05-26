@@ -1,21 +1,35 @@
-# Smart Fish Tank Webserver
-The Web Server for the Smart Fish Tank Monitoring System
+# SmartFishTank-Arduino
+This Smart Fish Tank Monitoring System is fish maintenance and monitoring ecosystem that lets fish owners manage and control their fish tank with ease. This ecosystem consists of an Arduino monitoring the temperature, pH level, and turbidity (water clarity) of the tank. The Arduino will report these data to a Raspberry Pi, which then uses this data to control the temperature of the tank with a heater. This fish tank monitoring system can then be controlled from a website.
 
-## Requirements
-- Python 3
-- Pip3
-- Python library dependencies in requirements.txt
+## Branches
+- **master** Arduino Code in C++ and Raspberry Pi Code in Python 
+- **webpage** Python webserver and website for remote communication to the Smart Fish Tank Hardware 
+- **CAD** 3D CAD for 3D Printing 
 
-## Installing
-#### Using  `env.sh` script
-1. Run `$ source env.sh`
-2. Type `$ stop` to deactivate environment
-#### Manual
-1. Install virtualenv: `$ pip install virtualenv`
-2. Create virtualenv: `$ virtualenv .env`
-3. Activate virtualenv: `$ source .env/bin/activate`
-4. Install python required libraries with `$ pip install -r requirements.txt`
+## Documents
+#### Design Document
+[Direct Link](documents/design_document.pdf)
+<br>
+
+#### Presentation
+[Direct Link](documents/final_presentation.pdf)
+<br>
+Note: Download pdf and click on slides 9-14 to play videos
+<br>
+
+#### Schematic
+![Arduino Schematic](documents/schematics.svg)
+
+
+## Team
+- <a href="https://github.com/cmasterx" target="_blank">Charlemagne Wong</a>
+- <a href="https://github.com/jared-jones280" target="_blank">Jared Jones</a>
+- <a href="https://github.com/austin-2rf" target="_blank">Austin Collier</a>
+
 ---
-## Run
-- With __env.sh__ running: `$ run`
-- Manually with virtualenv activated: "$ python fish_tank_server.py`
+
+## License
+
+[![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)
+
+- **[MIT license](http://opensource.org/licenses/mit-license.php)**

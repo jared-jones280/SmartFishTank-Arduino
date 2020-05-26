@@ -9,10 +9,13 @@ This Smart Fish Tank Monitoring System is fish maintenance and monitoring ecosys
 ## Documents
 #### Design Document
 [Direct Link](documents/design_document.pdf)
+<br>
 
 #### Presentation
 [Direct Link](documents/final_presentation.pdf)
-Note: Click on slides 9-14 to play video
+<br>
+Note: Download pdf and click on slides 9-14 to play videos
+<br>
 
 #### Schematic
 ![Arduino Schematic](documents/schematics.svg)

@@ -1,3 +1,5 @@
+# old code
+
 import time, socket, json, pickle, datetime, queue, threading
 from adafruit_motorkit import MotorKit
 from adafruit_motor import stepper
